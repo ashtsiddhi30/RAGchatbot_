@@ -126,8 +126,8 @@ with col_suggest:
     if st.session_state.suggested:
         st.markdown("### 💡 AI Suggested Questions")
 
-        for q in st.session_state.suggested:
-            if st.button(q):
+        for i, q in enumerate(st.session_state.suggested):
+            if st.button(q, key=f"suggested_{i}"):
 
                 if st.session_state.get("qa_chain"):
                     result = st.session_state.qa_chain.invoke({"query": q})
