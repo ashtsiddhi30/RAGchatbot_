@@ -27,6 +27,9 @@ if "suggested" not in st.session_state:
 if "pdf_bytes" not in st.session_state:
     st.session_state.pdf_bytes = None
 
+if "pdf_processed" not in st.session_state:
+    st.session_state.pdf_processed = False
+
 # PAGE SETTINGS
 st.set_page_config(
     page_title="PDF Chatbot",
@@ -110,7 +113,7 @@ col1, col2, col3 = st.columns([2,1,1])
 
 with col1:
     st.markdown("### 📤 Upload PDF")
-    uploaded_file = st.file_uploader("", type="pdf")
+    uploaded_file = st.file_uploader("Upload your PDF", type="pdf")
 
 with col2:
     reset_chat = st.button("🔄 Reset", use_container_width=True)
@@ -190,7 +193,7 @@ with left:
     st.markdown('</div>', unsafe_allow_html=True)
 
 # PROCESS PDF
-if uploaded_file:
+if uploaded_file and st.session_state.get("pdf_processed") != True:
 
     if st.session_state.pdf_bytes is None:
         st.session_state.pdf_bytes = uploaded_file.read()
@@ -206,6 +209,9 @@ if uploaded_file:
 
     if st.session_state.qa_chain is None:
         st.session_state.qa_chain = create_qa_chain(st.session_state.vector_db)
+
+    st.session_state.pdf_processed = True
+
 
     qa_chain = st.session_state.qa_chain
 
