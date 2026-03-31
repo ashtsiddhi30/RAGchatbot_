@@ -89,10 +89,10 @@ def create_qa_chain(vector_db):
     model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
     generator = pipeline(
-        task="text2text-generation",
+        task="text-generation",   # ✅ fixed
         model=model,
         tokenizer=tokenizer,
-        max_length=512,
+        max_new_tokens=200,       # ✅ fixed
         do_sample=False
     )
 
