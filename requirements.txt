@@ -8,3 +8,4 @@ transformers
 faiss-cpu
 pypdf
 torch
+streamlit-pdf-viewer

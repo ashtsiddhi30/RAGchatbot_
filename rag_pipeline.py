@@ -81,13 +81,13 @@ def create_vector_store(pdf_path):
 
 def create_qa_chain(vector_db):
 
-    # Faster model
+    # ✅ FIXED: specify task explicitly
     generator = pipeline(
-        "text2text-generation",
+        "text2text-generation",   # 🔥 FIX
         model="google/flan-t5-base",
         max_new_tokens=200,
         temperature=0.2,
-        do_sample=True
+        do_sample=False   # 🔥 FIX repetition issue
     )
 
     llm = HuggingFacePipeline(pipeline=generator)
