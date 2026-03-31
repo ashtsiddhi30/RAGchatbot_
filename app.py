@@ -27,8 +27,7 @@ if "suggested" not in st.session_state:
 if "pdf_bytes" not in st.session_state:
     st.session_state.pdf_bytes = None
 
-if "pdf_processed" not in st.session_state:
-    st.session_state.pdf_processed = False
+
 
 # PAGE SETTINGS
 st.set_page_config(
@@ -159,6 +158,7 @@ if reset_chat:
     st.session_state.sources = []
     st.session_state.suggested = []
     st.session_state.pdf_bytes = None
+    st.session_state.pdf_processed = False
 
 st.divider()
 
