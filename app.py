@@ -222,7 +222,14 @@ Return them as separate lines.
     
         result = qa_chain.invoke({"query": prompt})
         qs = result["result"].split("\n")
-        st.session_state.suggested = qs[:4]
+
+        clean_qs = []
+        for q in qs:
+            q = q.strip()
+            if len(q) > 10 and "?" in q:   # only real questions
+                clean_qs.append(q)
+
+        st.session_state.suggested = clean_qs[:4]
 
         st.rerun()
 
@@ -236,6 +243,12 @@ Return them as separate lines.
             result = qa_chain.invoke({"query": question})
 
         answer = result["result"]
+
+        # remove unwanted parts
+        answer = answer.split("Context:")[0]
+        answer = answer.replace("You are a helpful agriculture assistant.", "")
+        answer = answer.replace("Answer the question using ONLY the context below.", "")
+        answer = answer.strip()
         sources = result["source_documents"]
 
         st.session_state.sources = sources
