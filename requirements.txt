@@ -10,3 +10,5 @@ pypdf
 torch
 torchvision
 streamlit-pdf-viewer
+transformers==4.36.2
+

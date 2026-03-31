@@ -81,22 +81,23 @@ def create_vector_store(pdf_path):
 
 def create_qa_chain(vector_db):
 
-    from transformers import pipeline, AutoTokenizer, AutoModelForSeq2SeqLM
+    from langchain_community.llms import HuggingFacePipeline
+    from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 
-    model_name = "google/flan-t5-small"   # ⚡ important change
+    model_name = "google/flan-t5-small"
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
-    generator = pipeline(
-        task="text2text-generation",   # ✅ fixed
+    pipe = pipeline(
+        "text2text-generation",
         model=model,
         tokenizer=tokenizer,
-        max_new_tokens=200,       # ✅ fixed
+        max_new_tokens=200,
         do_sample=False
     )
 
-    llm = HuggingFacePipeline(pipeline=generator)
+    llm = HuggingFacePipeline(pipeline=pipe)
 
     retriever = vector_db.as_retriever(
         search_type="mmr",
