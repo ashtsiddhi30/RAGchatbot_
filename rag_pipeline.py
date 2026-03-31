@@ -81,13 +81,19 @@ def create_vector_store(pdf_path):
 
 def create_qa_chain(vector_db):
 
-    # ✅ FIXED: specify task explicitly
+    from transformers import pipeline, AutoTokenizer, AutoModelForSeq2SeqLM
+
+    model_name = "google/flan-t5-small"   # ⚡ important change
+
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+
     generator = pipeline(
-        "text2text-generation",   # 🔥 FIX
-        model="google/flan-t5-base",
-        max_new_tokens=200,
-        temperature=0.2,
-        do_sample=False   # 🔥 FIX repetition issue
+        task="text2text-generation",
+        model=model,
+        tokenizer=tokenizer,
+        max_length=512,
+        do_sample=False
     )
 
     llm = HuggingFacePipeline(pipeline=generator)
