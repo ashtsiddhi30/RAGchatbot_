@@ -27,8 +27,6 @@ if "suggested" not in st.session_state:
 if "pdf_bytes" not in st.session_state:
     st.session_state.pdf_bytes = None
 
-
-
 # PAGE SETTINGS
 st.set_page_config(
     page_title="PDF Chatbot",
@@ -112,7 +110,7 @@ col1, col2, col3 = st.columns([2,1,1])
 
 with col1:
     st.markdown("### 📤 Upload PDF")
-    uploaded_file = st.file_uploader("Upload your PDF", type="pdf")
+    uploaded_file = st.file_uploader("", type="pdf")
 
 with col2:
     reset_chat = st.button("🔄 Reset", use_container_width=True)
@@ -128,8 +126,8 @@ with col_suggest:
     if st.session_state.suggested:
         st.markdown("### 💡 AI Suggested Questions")
 
-        for i, q in enumerate(st.session_state.suggested):
-            if st.button(q, key=f"suggested_{i}"):
+        for q in st.session_state.suggested:
+            if st.button(q):
 
                 if st.session_state.get("qa_chain"):
                     result = st.session_state.qa_chain.invoke({"query": q})
@@ -192,7 +190,7 @@ with left:
     st.markdown('</div>', unsafe_allow_html=True)
 
 # PROCESS PDF
-if uploaded_file and st.session_state.get("pdf_processed") != True:
+if uploaded_file:
 
     if st.session_state.pdf_bytes is None:
         st.session_state.pdf_bytes = uploaded_file.read()
@@ -209,9 +207,6 @@ if uploaded_file and st.session_state.get("pdf_processed") != True:
     if st.session_state.qa_chain is None:
         st.session_state.qa_chain = create_qa_chain(st.session_state.vector_db)
 
-    st.session_state.pdf_processed = True
-
-
     qa_chain = st.session_state.qa_chain
 
     if qa_chain is None:
@@ -227,14 +222,7 @@ Return them as separate lines.
     
         result = qa_chain.invoke({"query": prompt})
         qs = result["result"].split("\n")
-
-        clean_qs = []
-        for q in qs:
-            q = q.strip()
-            if len(q) > 10 and "?" in q:   # only real questions
-                clean_qs.append(q)
-
-        st.session_state.suggested = clean_qs[:4]
+        st.session_state.suggested = qs[:4]
 
         st.rerun()
 
@@ -248,12 +236,6 @@ Return them as separate lines.
             result = qa_chain.invoke({"query": question})
 
         answer = result["result"]
-
-        # remove unwanted parts
-        answer = answer.split("Context:")[0]
-        answer = answer.replace("You are a helpful agriculture assistant.", "")
-        answer = answer.replace("Answer the question using ONLY the context below.", "")
-        answer = answer.strip()
         sources = result["source_documents"]
 
         st.session_state.sources = sources

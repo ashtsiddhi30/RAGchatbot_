@@ -2,7 +2,7 @@ import os
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
-from langchain.chains import RetrievalQA
+from langchain_classic.chains import RetrievalQA
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.llms import HuggingFacePipeline
 from transformers import pipeline
@@ -81,23 +81,16 @@ def create_vector_store(pdf_path):
 
 def create_qa_chain(vector_db):
 
-    from langchain_community.llms import HuggingFacePipeline
-    from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
-
-    model_name = "google/flan-t5-small"
-
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
-
-    pipe = pipeline(
-        "text2text-generation",
-        model=model,
-        tokenizer=tokenizer,
+    # ✅ FIXED: specify task explicitly
+    generator = pipeline(
+        "text2text-generation",   # 🔥 FIX
+        model="google/flan-t5-base",
         max_new_tokens=200,
-        do_sample=False
+        temperature=0.2,
+        do_sample=False   # 🔥 FIX repetition issue
     )
 
-    llm = HuggingFacePipeline(pipeline=pipe)
+    llm = HuggingFacePipeline(pipeline=generator)
 
     retriever = vector_db.as_retriever(
         search_type="mmr",
