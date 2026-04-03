@@ -10,3 +10,5 @@ tokenizers==0.19.1
 faiss-cpu==1.13.2
 pypdf==5.4.0
 streamlit-pdf-viewer==0.0.19
+langsmith==0.1.147
+zstandard==0.22.0
