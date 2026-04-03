@@ -158,7 +158,6 @@ if reset_chat:
     st.session_state.sources = []
     st.session_state.suggested = []
     st.session_state.pdf_bytes = None
-    st.session_state.pdf_processed = False
 
 st.divider()
 
