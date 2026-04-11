@@ -1,6 +1,7 @@
-# 📄 Smart Document Assistant
+# A.R.G.U.S.🕶️
+### Augmented Retrieval & Generation Unified System🤖⚡
 
-An AI-powered PDF chatbot using Retrieval-Augmented Generation (RAG).
+A.R.G.U.S. is a Retrieval-Augmented Generation (RAG) system designed to deliver accurate, context-aware responses by combining vector-based search with large language models.
 
 ## 🚀 Features
 - Upload and analyze PDF documents
