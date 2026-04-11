@@ -13,12 +13,14 @@ from langchain_core.prompts import PromptTemplate
 PROMPT = PromptTemplate(
     input_variables=["context", "question"],
     template="""
-You are a helpful agriculture assistant.
+You are a helpful assistant.
 
-Answer the question using ONLY the context below.
+Answer the question using ONLY the context provided below.
 
-Explain the answer clearly in bullet points.
-Rewrite the information instead of copying text from the context.
+- Explain the answer clearly using bullet points.
+- Rewrite the information in your own words.
+- Do not copy sentences directly from the context.
+- If the answer is not present in the context, say "The answer is not available in the provided document."
 
 Context:
 {context}
