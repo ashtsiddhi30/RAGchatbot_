@@ -101,7 +101,7 @@ body {
 st.markdown("""
 <div class="header">
     <h1>A.R.G.U.S.🕶️</h1>
-        <h3>Augmented Retrieval & Generation Unified System🤖</h3>
+        <h3>Augmented Retrieval & Generation Unified System</h3>
     <p>Upload, Analyze, and Chat with your PDF intelligently</p>
 </div>
 """, unsafe_allow_html=True)
