@@ -20,6 +20,7 @@ Answer the question using ONLY the context provided below.
 - Explain the answer clearly using bullet points.
 - Rewrite the information in your own words.
 - Do not copy sentences directly from the context.
+- give proper indentation and spacing to enhance readability.
 - If the answer is not present in the context, say "The answer is not available in the provided document."
 
 Context:
